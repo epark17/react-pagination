@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Posts from './components/Posts';
+import Pagination from './components/Pagination';
 import axios from 'axios';
 import './App.css';
 
@@ -32,10 +33,16 @@ const App = () => {
     // for this project, will keep [] empty and will mimic componentDidMount lifecycle
   }, []);
 
+  // Get Current Posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
     <div className="container mt-5">
       <h1 className="text-primary mb-3">My Blog</h1>
-      <Posts posts={posts} loading={loading} />
+      <Posts posts={currentPosts} loading={loading} />
+      <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} />
     </div>
   );
 };
